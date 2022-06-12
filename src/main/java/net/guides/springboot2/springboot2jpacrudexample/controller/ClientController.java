@@ -1,13 +1,18 @@
 package net.guides.springboot2.springboot2jpacrudexample.controller;
 
+
+import java.io.OutputStream;
 import java.util.HashMap;
 
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import net.guides.springboot2.springboot2jpacrudexample.helps.ZXingHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,4 +71,14 @@ public class ClientController {
 		response.put("deleted", Boolean.TRUE);
 		return response;
 	}
+
+	@RequestMapping(value = "/barcode/{id}",method = RequestMethod.GET)
+	public void barcode(@PathVariable("id") String id , HttpServletResponse response) throws Exception {
+		response.setContentType("image/png");
+		OutputStream outputStream = response.getOutputStream();
+		outputStream.write(ZXingHelper.getBarCodeImage(id, 300, 60));
+		outputStream.flush();
+		outputStream.close();
+	}
+
 }
