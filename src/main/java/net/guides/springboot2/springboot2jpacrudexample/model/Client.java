@@ -1,18 +1,15 @@
 package net.guides.springboot2.springboot2jpacrudexample.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "clients")
 public class Client {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String firstName;
 	private String lastName;
@@ -20,8 +17,46 @@ public class Client {
 	private String adresse;
 	private long telephone;
 
+
+	@ManyToOne(
+			targetEntity =net.guides.springboot2.springboot2jpacrudexample.model.Materiel.class,
+			fetch = FetchType.LAZY,
+			cascade = {
+					CascadeType.PERSIST,
+					CascadeType.MERGE
+			}
+	)
+	@JoinTable( name = "materiels_clients",
+			joinColumns = @JoinColumn( name = "id" ),
+			inverseJoinColumns = @JoinColumn( name = "idMateriel" ) )
+	private Materiel materiel;
+
+	/*
+	@OneToMany(
+			fetch = FetchType.LAZY,
+			cascade = {
+					CascadeType.PERSIST,
+					CascadeType.MERGE
+			}
+	)
+	@JoinTable(
+			name = "categorie_produit",
+			joinColumns = @JoinColumn(name = "categorie_id"),
+			inverseJoinColumns = @JoinColumn(name = "produit_id")
+	)
+	private List<Materiel> materiels = new ArrayList<>();
+
+	@ManyToOne
+	private Materiel materiel;
+
+	public Materiel getMateriel() {
+		return materiel;}
+	public void setMateriel(Materiel materiel) {
+		this.materiel = materiel;}
+*/
+
 	public Client() {
-		
+
 	}
 	
 	public Client(String firstName, String lastName, String emailId, String adresse, long telephone) {

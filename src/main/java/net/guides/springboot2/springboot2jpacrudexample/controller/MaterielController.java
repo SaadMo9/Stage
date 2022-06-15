@@ -13,7 +13,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping("/api/v1")
 public class MaterielController {
     @Autowired
     private MaterielRepository materielRepository;

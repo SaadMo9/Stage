@@ -72,8 +72,9 @@ public class ClientController {
 		return response;
 	}
 
+
 	@RequestMapping(value = "/barcode/{id}",method = RequestMethod.GET)
-	public void barcode(@PathVariable("id") String id , HttpServletResponse response) throws Exception {
+	public void barcode(@PathVariable("id") String id , String nom, String prenom, HttpServletResponse response) throws Exception {
 		response.setContentType("image/png");
 		OutputStream outputStream = response.getOutputStream();
 		outputStream.write(ZXingHelper.getBarCodeImage(id, 300, 60));
